@@ -28,7 +28,7 @@ class _UsersScreenState extends State<UsersScreen> {
     });
 
     try {
-      final response = await widget.api.get('/api/usuarios');
+      final response = await widget.api.get('/api/sesiones/en-linea');
       setState(() {
         _usuarios = List<Map<String, dynamic>>.from(response['data'] ?? []);
         _loading = false;
@@ -111,8 +111,7 @@ class _UsersScreenState extends State<UsersScreen> {
         final usuario = _usuarios[index];
         final nombre = usuario['nombre'] ?? 'Sin nombre';
         final rol = usuario['rol']?['nombre'] ?? 'Sin rol';
-        final habilitado = usuario['habilitado'] == true;
-        final sesionId = usuario['id'];
+        final sesionId = usuario['sesion_id'];
 
         return Card(
           margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
@@ -159,18 +158,14 @@ class _UsersScreenState extends State<UsersScreen> {
                               vertical: 2,
                             ),
                             decoration: BoxDecoration(
-                              color: habilitado
-                                  ? Colors.green.shade100
-                                  : Colors.red.shade100,
+                              color: Colors.green.shade100,
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: Text(
-                              habilitado ? 'Activo' : 'Inactivo',
+                            child: const Text(
+                              'En línea',
                               style: TextStyle(
                                 fontSize: 12,
-                                color: habilitado
-                                    ? Colors.green.shade900
-                                    : Colors.red.shade900,
+                                color: Colors.green,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
